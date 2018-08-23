@@ -30,13 +30,27 @@ class Client():
 	
 	def received(self):
 		self.name = self.conn.recv(BUFFER_SIZE).decode()
-		
+
 		while 1:
 			data = self.conn.recv(BUFFER_SIZE).decode()
-			msg = self.name + ': ' + data
-			for i in clients:
-				if i.addr != self.addr:
-					i.conn.send(msg.encode())
+			if not data:
+				self.exit()
+				return 0
+			self.send(data)
+
+	def exit(self):
+		print(Fore.RED + 'been close')
+		print(Style.RESET_ALL)
+		self.conn.close()
+		for i in clients:
+			if i.addr == self.addr:
+				clients.remove(i)
+
+	def send(self, data):
+		msg = self.name + ': ' + data
+		for i in clients:
+			if i.addr != self.addr:
+				i.conn.send(msg.encode())
 
 while 1:
 	conn, addr = server.accept()
@@ -44,13 +58,4 @@ while 1:
 	print(Fore.GREEN +'client: ', addr, 'connected!' )
 
 server.close()
-
-
-# print(Back.GREEN + 'listening on port: 6060')
-# print(Style.RESET_ALL)
-
-# while 1:
-# 	conn, 	addr = server.accept()
-# 	clients.append(Client(conn, addr))
-# 	print(clients)
-# conn.close()
+	

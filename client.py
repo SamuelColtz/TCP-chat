@@ -1,5 +1,5 @@
 import socket 
-from colorama import Fore, Style
+from colorama import Fore, Style, Back
 from threading import Thread
 
 
@@ -11,22 +11,23 @@ BUFFER_SIZE = 1024
 client = socket.socket()
 client.connect((TCP_IP, TCP_PORT))
 
-
 def inp():
 	print('Welcome to the chat room')
 	name = input('plase type your name: ')
-	print('Welcome to the chat ', name)
+	print(Fore.GREEN  + 'Welcome to the chat ', Fore.MAGENTA + name)
+	print(Style.RESET_ALL)
 	client.send(name.encode())
 	while 1:
-		data = input('you: ')
+		data = input(Fore.BLUE + 'you: ' + Style.RESET_ALL)
 		if data == '-close':
-			break
+			client.close()
+			return 0
 		client.send(data.encode())
 
 def recevied():
 	while 1:
 		data = client.recv(BUFFER_SIZE).decode()
-		print(Fore.RED + data.decode())
+		print(Fore.RED + data)
 		print(Style.RESET_ALL)
 
 
