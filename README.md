@@ -2,7 +2,7 @@
 
 
 ## How to install
-$ sudo pip install colorama
+' sudo pip install colorama '
 
 
 ### first step: start the server
