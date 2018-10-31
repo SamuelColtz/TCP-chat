@@ -10,6 +10,7 @@ $sudo pip install colorama
 $ python server.py
 
 #connect client
-$ python client.py ```
+$ python client.py 
+```
 
 
